@@ -1,8 +1,10 @@
-var express     = require("express"),
-    mongoose    = require("mongoose"),
-	bodyParser  = require("body-parser"),
+var express        = require("express"),
+    mongoose       = require("mongoose"),
+	bodyParser     = require("body-parser"),
 	methodOverride = require("method-override"),
-    app         = express();
+	passport       = require("passport"),
+	LocalStrategy  = require("passport-local"),
+    app            = express();
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,10 +15,63 @@ mongoose.set('useFindAndModify', false);
 
 //Appointment Schema
 var Appointment = require("./models/appointment");
+//User Schema
+var User = require("./models/user")
+
+//PASSPORT CONFIGURATION
+app.use(require("express-session")({
+	secret: "AppointmentApp for your appointment needs",
+	resave: false,
+	saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use(function(req, res, next){
+	res.locals.currentUser = req.user;
+	next();
+});
 
 //INDEX - get the appointment index page
 app.get("/", function(req, res){
 	res.render("index");
+});
+
+app.get("/login", function(req, res){
+	res.render("login");
+});
+
+app.post("/login", passport.authenticate("local", 
+	{
+		successRedirect: "/",
+		failureRedirect: "/login"
+	}), function(req, res){
+
+});
+
+app.get("/logout", function(req, res){
+	req.logout();
+	res.redirect("/");
+});
+
+app.get("/register", function(req, res){
+	res.render("register");
+});
+
+app.post("/register", function(req, res){
+	var newUser = new User({username: req.body.username, isAdmin: req.body.isAdmin});
+	User.register(newUser, req.body.password, function(err, user){
+		if(err){
+			console.log(err);
+		} else {
+			passport.authenticate("local")(req, res, function(){
+				res.redirect("/");
+			});
+		}
+	});
 });
 
 //NEW - create new appointment
