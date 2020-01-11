@@ -1,0 +1,14 @@
+.frontContainer {
+    margin-top: 5rem;
+    margin-bottom: 2rem;
+}
+
+.container {
+    max-width: 1000px;
+    width: 90%;
+}
+
+/* to be removed. for inspiration purposes only */
+.dogImage {
+    width: 500px;
+}

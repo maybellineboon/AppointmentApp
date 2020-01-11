@@ -1,0 +1,30 @@
+<%- include("partials/header") %>
+
+	<div>
+		<h1 class="text-center">Appointment Page</h1>
+		<form action="/appointment" method="POST">
+			<div class="row">
+				<div class="col-12 my-5 mx-5">
+					<div class="row">
+						<div class="col-3" id="appDatePicker">
+							<input type="hidden" class="form-control" name="appointmentDate" required>
+						</div>
+						<div class="col-9">
+							<p>Where the time goes</p>
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-6">
+					<label for="phoneNumber">Phone Number</label>
+					<input type="text" class="form-control" name="phoneNumber" placeholder="phone number" required>
+				</div>
+				<div class="form-group col-6">
+					<label for="appointmentTime">Appointment Time</label>
+					<input type="text" class="form-control" name="appointmentTime" placeholder="Appointment Time" required>
+				</div>
+			</div>
+			<input class="btn btn-primary" type="submit" value="Submit">
+		</form>
+	</div>
+
+<%- include("partials/footer") %>

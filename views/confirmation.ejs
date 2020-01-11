@@ -1,0 +1,10 @@
+<%- include("partials/header") %>
+<div>
+    <h3 class="my-5">Appointment for <%= appointment.phoneNumber %></h3>
+    <div>
+        <p>Confirmation Number: <strong><%= appointment._id %></strong></p>
+        <p>Appointment Time: <strong><%= appointment.appointmentTime %></strong></p>
+        <p>Appointment Date: <strong><%= appointment.appointmentDate %></strong></p>
+    </div>
+</div>
+<%- include("partials/footer") %>

@@ -1,0 +1,20 @@
+<%- include("partials/header") %>
+<div>
+    <h3 class="my-5">Appointments</h3>
+    <div>
+        <% allAppointments.forEach(function(appointment){ %>
+            <div class="border my-2">
+                <div class="mx-3 my-2">
+                    <p class="my-0">Confirmation Number: <strong><%= appointment._id %></strong></p>
+                    <p class="my-0">Appointment Time: <strong><%= appointment.appointmentTime %></strong></p>
+                    <p class="my-0">Appointment Date: <strong><%= appointment.appointmentDate %></strong></p>
+                    <div class="my-2">
+                        <a class="btn btn-sm btn-success" href="#">Edit</a>
+                        <a class="btn btn-sm btn-danger" href="#">Delete</a>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</div>
+<%- include("partials/footer") %>
