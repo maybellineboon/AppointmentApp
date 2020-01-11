@@ -1,11 +1,13 @@
 var express     = require("express"),
     mongoose    = require("mongoose"),
-		bodyParser  = require("body-parser"),
+	bodyParser  = require("body-parser"),
+	methodOverride = require("method-override"),
     app         = express();
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
 mongoose.connect("mongodb://localhost/appointmentApp", { useUnifiedTopology: true, useNewUrlParser: true });
 mongoose.set('useFindAndModify', false);
 
@@ -62,6 +64,16 @@ app.get("/appointment/edit", function(req, res){
 	});
 });
 
+//DESTROY - delete appointment for a user
+app.delete("/appointment/:id", function(req, res){
+	Appointment.findByIdAndRemove(req.params.id, function(err){
+		if(err){
+			console.log(err);
+		} else {
+			res.redirect("/appointment/edit");
+		}
+	});
+});
 
 //application listener
 app.listen(3000, function(){

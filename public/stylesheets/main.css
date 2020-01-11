@@ -8,6 +8,10 @@
     width: 90%;
 }
 
+.delete-form {
+    display: inline;
+}
+
 /* to be removed. for inspiration purposes only */
 .dogImage {
     width: 500px;
