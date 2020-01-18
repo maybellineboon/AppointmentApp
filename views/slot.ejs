@@ -1,0 +1,32 @@
+<%- include("partials/header") %>
+<div>
+    <h3>New Appointment Slot</h3>
+    <form action="/slot" method="POST">
+        <div class="row">
+            <div class="col-12 my-5 mx-5">
+                <div class="row">
+                    <div class="col-12 col-lg-3" id="appDatePicker">
+                        <!-- <input type="hidden" class="form-control" name="appointmentDate" id="appointmentDate" onchange="populateTime(this.id, 'appointmentTime')" required> -->
+                        <input type="hidden" class="form-control" name="appointmentDate" id="appointmentDate" required>
+                    </div>
+                    <div class="col-12 col-lg-9">
+                        <p>Appointment Slots Available:</p>
+                        <div id="appointmentTime">
+                            <p>Please select a date</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-6">
+                <label for="appointmentTime">Time</label>
+                <input type="time" class="form-control" name="appointmentTime" placeholder="appointmentTime" required>
+            </div>
+            <div class="form-group col-6">
+                <label for="appointmentDuration">Duration (minutes)</label>
+                <input type="number" class="form-control" name="appointmentDuration" placeholder="60" min="10" max="120" step="10" required>
+            </div>
+        </div>
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
+</div>
+<%- include("partials/footer") %>

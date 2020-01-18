@@ -1,10 +1,10 @@
-var express        = require("express"),
-    mongoose       = require("mongoose"),
-	bodyParser     = require("body-parser"),
-	methodOverride = require("method-override"),
-	passport       = require("passport"),
-	LocalStrategy  = require("passport-local"),
-    app            = express();
+const express        = require("express"),
+      mongoose       = require("mongoose"),
+	  bodyParser     = require("body-parser"),
+	  methodOverride = require("method-override"),
+	  passport       = require("passport"),
+	  LocalStrategy  = require("passport-local"),
+      app            = express();
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,6 +40,9 @@ app.get("/", function(req, res){
 	res.render("index");
 });
 
+//**********************
+// LOGIN ROUTE
+//**********************
 app.get("/login", function(req, res){
 	res.render("login");
 });
@@ -52,11 +55,17 @@ app.post("/login", passport.authenticate("local",
 
 });
 
+//**********************
+// LOGOUT ROUTE
+//**********************
 app.get("/logout", function(req, res){
 	req.logout();
 	res.redirect("/");
 });
 
+//**********************
+// REGISTER ROUTE
+//**********************
 app.get("/register", function(req, res){
 	res.render("register");
 });
@@ -88,6 +97,9 @@ app.post("/register", function(req, res){
 	});
 });
 
+//**********************
+// CREATE APPOINTMENT ROUTE
+//**********************
 //NEW - create new appointment
 app.get("/appointment/new", function(req, res){
 	res.render("new");
@@ -95,20 +107,20 @@ app.get("/appointment/new", function(req, res){
 
 //CREATE - create new appointment and write to database
 app.post("/appointment", function(req, res){
-	//get data and add to appointment array
-	var phoneNumber = req.body.phoneNumber;
-	var appointmentTime = req.body.appointmentTime;
-	var appointmentDate = req.body.appointmentDate;
-	var newAppointment = { phoneNumber: phoneNumber, appointmentTime: appointmentTime, appointmentDate: appointmentDate };
-	//create new appointment and save to db
-	Appointment.create(newAppointment, function(err, newlyCreated){
-		if(err){
-			console.log(err);
-		} else {
-			//show appointment page confirmation
-			res.redirect("/appointment/confirmation/" + newlyCreated._id);
-		}
-	});
+	// //get data and add to appointment array
+	// const phoneNumber = req.body.phoneNumber;
+	// const appointmentTime = req.body.appointmentTime;
+	// const appointmentDate = req.body.appointmentDate;
+	// const newAppointment = { phoneNumber: phoneNumber, appointmentTime: appointmentTime, appointmentDate: appointmentDate };
+	// //create new appointment and save to db
+	// Appointment.create(newAppointment, function(err, newlyCreated){
+	// 	if(err){
+	// 		console.log(err);
+	// 	} else {
+	// 		//show appointment page confirmation
+	// 		res.redirect("/appointment/confirmation/" + newlyCreated._id);
+	// 	}
+	// });
 });
 
 //SHOW - show newly created appointment
@@ -133,6 +145,9 @@ app.get("/appointment/edit", function(req, res){
 	});
 });
 
+//**********************
+// DELETE APPOINTMENT ROUTE
+//**********************
 //DESTROY - delete appointment for a user
 app.delete("/appointment/:id", function(req, res){
 	Appointment.findByIdAndRemove(req.params.id, function(err){
@@ -143,6 +158,54 @@ app.delete("/appointment/:id", function(req, res){
 		}
 	});
 });
+
+//**********************
+// CREATE SLOT ROUTE
+//**********************
+app.get("/slot/new", function(req, res){
+	res.render("slot");
+});
+
+app.post("/slot", function(req, res){
+	//get data and add to appointment array
+	const doctor = req.user._id;
+	const appointmentTime = req.body.appointmentTime;
+	const appointmentDuration = req.body.appointmentDuration;
+	const appointmentDate = req.body.appointmentDate;
+	const newAppointment = { doctor: doctor, appointmentTime: appointmentTime, appointmentDuration: appointmentDuration, appointmentDate: appointmentDate };
+	//create new appointment and save to db
+	Appointment.create(newAppointment, function (err, newlyCreated) {
+		if (err) {
+			console.log(err);
+		} else {
+			//show appointment page confirmation
+			console.log(newlyCreated);
+			res.redirect("/slot/new")
+		}
+	});
+});
+
+// doctor: {
+// 	id: {
+// 		type: mongoose.Schema.Types.ObjectId,
+// 			ref: "User"
+// 	},
+// 	username: String
+// },
+// appointmentTime: String,
+// 	appointmentDuration: String,
+// 		appointmentDate: String,
+// 			user: {
+// 	id: {
+// 		type: mongoose.Schema.Types.ObjectId,
+// 			ref: "User"
+// 	},
+// 	username: String
+// }
+
+//**********************
+// MIDDLEWARE
+//**********************
 
 //application listener
 app.listen(3000, function(){

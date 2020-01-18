@@ -1,4 +1,4 @@
-var dateInput = $('input[name="appDatePicker"]');
+const dateInput = $('input[name="appDatePicker"]');
 
 $('#appDatePicker').datepicker({
 	startDate: new Date(),
@@ -6,6 +6,19 @@ $('#appDatePicker').datepicker({
 	todayHighlight: true
 });
 
+$('#appDatePicker').on('changeDate', function(){
+	let date = document.querySelector("#appointmentDate");
+	let time = document.querySelector("#appointmentTime");
+	time.innerHTML = '';
+
+});
+
+// function populateTime(date, time){
+// 	let date = document.querySelector("#date");
+// 	let time = document.querySelector("#time");
+// 	time.innerHTML = "";
+	
+// }
 // $('#appDatePicker').datepicker()
 // 	.on(changeDate, function (e) {
 // 		document.querySelector('input[name="appointmentTime"]') = e;

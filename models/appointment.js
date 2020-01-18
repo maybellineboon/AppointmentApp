@@ -1,6 +1,6 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-var appointmentSchema = new mongoose.Schema({
+const appointmentSchema = new mongoose.Schema({
     doctor: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
@@ -9,6 +9,7 @@ var appointmentSchema = new mongoose.Schema({
         username: String
     },
     appointmentTime: String,
+    appointmentDuration: String,
     appointmentDate: String,
     user: {
         id: {
